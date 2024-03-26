@@ -3,45 +3,56 @@ const { Events } = require('discord.js');
 module.exports = {
 	name: Events.InteractionCreate,
 	async execute(interaction) {
-		if (!interaction.isChatInputCommand()) return;
+		if (interaction.isChatInputCommand()) {
+			const command = interaction.client.commands.get(interaction.commandName);
 
-		const command = interaction.client.commands.get(interaction.commandName);
+			if (!command) {
+				console.error(`No command matching ${interaction.commandName} was found.`);
+				return;
+			}
 
-		if (!command) {
-			console.error(`No command matching ${interaction.commandName} was found.`);
-			return;
-		}
-
-		// Cooldown
-		/* const { cooldowns } = interaction.client;
-
-		if (!cooldowns.has(command.data.name)) {
-			cooldowns.set(command.data.name, new Collection());
-		}
-
-		const now = Date.now();
-		const timestamps = cooldowns.get(command.data.name);
-		const defaultCooldownDuration = 3;
-		const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1000;
-
-		if (timestamps.has(interaction.user.id)) {
-			const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-
-			if (now < expirationTime) {
-				const expiredTimestamp = Math.round(expirationTime / 1000);
-				return interaction.reply({ content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`, ephemeral: true });
+			try {
+				await command.execute(interaction);
+			}
+			catch (error) {
+				console.error(`Error executing ${interaction.commandName}`);
+				console.error(error);
+				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 			}
 		}
+		else if (interaction.isButton()) {
+			// respond to the button
+			const disCon3Teams = ['DisconTeam1', 'DisconTeam2', 'DisconTeam3', 'DisconTeam4'];
+			switch (interaction.customId) {
+			case 'jointeam':
 
-		timestamps.set(interaction.user.id, now);
-		setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
- */
-		try {
-			await command.execute(interaction);
+				if (!interaction.member.roles.cache.some(role => disCon3Teams.includes(role.name))) {
+
+
+					const teamName = disCon3Teams[Math.floor(Math.random() * disCon3Teams.length)];
+					const newRole = interaction.guild.roles.cache.find(role => role.name === teamName);
+
+					await interaction.member.roles.add(newRole);
+					const replyContent = `Du bist jetzt Mitglied von **${newRole.name}**`;
+					await interaction.reply({ content: replyContent, ephemeral: true });
+
+				}
+				else {
+					const team = interaction.member.roles.cache.find(role => disCon3Teams.includes(role.name));
+					const replyContent = `Du bist SCHON Mitglied vom **${team.name}**`;
+					await interaction.reply({ content: replyContent, ephemeral: true });
+				}
+
+				break;
+
+			default:
+				await interaction.reply({ content: 'There was an error while executing this Button!', ephemeral: true });
+				console.log(`Error: Button ${interaction.customId} noch nicht implemetiert.`);
+				console.log(interaction);
+			}
 		}
-		catch (error) {
-			console.error(error);
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		else if (interaction.isStringSelectMenu()) {
+			// respond to the select menu
 		}
 	},
 };
