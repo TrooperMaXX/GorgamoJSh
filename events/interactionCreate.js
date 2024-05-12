@@ -23,6 +23,7 @@ module.exports = {
 		else if (interaction.isButton()) {
 			// respond to the button
 			const disCon3Teams = ['Goldener Drache', 'Grüner Cthulhu', 'Roter Phönix', 'Lila Einhorn'];
+
 			switch (interaction.customId) {
 			case 'jointeam':
 
