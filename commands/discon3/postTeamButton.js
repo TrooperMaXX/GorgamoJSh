@@ -7,7 +7,7 @@ module.exports = {
 	async execute(interaction) {
 		const jointeam = new ButtonBuilder()
 			.setCustomId('jointeam')
-			.setLabel('Tritt einem Team beil!')
+			.setLabel('Tritt einem Team bei!')
 			.setStyle(ButtonStyle.Primary);
 
 		const row = new ActionRowBuilder()

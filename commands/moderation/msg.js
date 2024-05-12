@@ -6,7 +6,7 @@ module.exports = {
 		.setDescription('Schreib eine Nachricht in DIESEN Channel als Gorgamosh!')
 		.addStringOption(option =>
 			option.setName('msgcontent')
-				.setDescription('Content of sending Message')
+				.setDescription('Inhalt der zu sendenden Nachricht. (Keine Absätze supported)')
 				.setRequired(true))
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction) {

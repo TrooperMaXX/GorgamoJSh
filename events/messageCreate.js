@@ -28,12 +28,12 @@ module.exports = {
 
 
 		}
-		else if (message.channelId == '1055621502290120714' && message.reference) {
+		else if (message.channelId == '1055621502290120714' && message.reference && message.author.id != '1055607090523152456') {
 			message.channel.messages.fetch(message.reference.messageId)
 				.then(ref => ref.mentions.members.first().send(message.content))
 				.catch(console.error);
 		}
-		else if (message.mentions.users.has('1055607090523152456')) {
+		else if (message.mentions.users.has('1055607090523152456') && message.author.id != '1055607090523152456') {
 			const bot_pn_channel = message.client.channels.cache.get('1055621502290120714');
 			if (message.attachments.first()) {
 				const exampleEmbed = new EmbedBuilder()
