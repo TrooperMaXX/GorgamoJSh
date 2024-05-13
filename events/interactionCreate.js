@@ -33,6 +33,21 @@ module.exports = {
 				console.log(interaction);
 			}
 		}
+		else if (interaction.isMessageContextMenuCommand()) {
+			console.log(interaction);
+			const spam_channel = interaction.client.channels.cache.get('1042921282699792396');
+			switch (interaction.commandName) {
+			case 'Send 2 Server-Info':
+				await interaction.reply({ content: 'Nachricht wird in <#1042921282699792396> gepostet', ephemeral: true });
+				spam_channel.send({ content: interaction.targetMessage.content });
+				break;
+
+			default:
+				await interaction.reply({ content: 'There was an error while executing this MessageContextMenuCommand!', ephemeral: true });
+				console.log(`Error: MessageContextMenuCommand ${interaction.commandName} noch nicht implemetiert.`);
+				console.log(interaction);
+			}
+		}
 		else if (interaction.isStringSelectMenu()) {
 			// respond to the select menu
 		}
