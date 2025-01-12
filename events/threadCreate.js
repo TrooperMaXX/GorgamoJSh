@@ -4,6 +4,9 @@ const { getAppliedTagsEmojis } = require('../helper/tagEmojiMapper.js');
 module.exports = {
 	name: Events.ThreadCreate,
 	async execute(thread) {
+		// wenn Post in Tempel des wissens --> dann keine Emojis drunter machen
+		if (thread.parentId == '1327666879640240149') return;
+
 		async function sleep(ms) {
 			return await new Promise(r => setTimeout(r, ms));
 		}
