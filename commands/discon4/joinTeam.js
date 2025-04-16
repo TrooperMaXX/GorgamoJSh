@@ -7,41 +7,33 @@ module.exports = {
 	async execute(interaction) {
 		const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuergoblin', 'Eisvampir'];
 
-		if (!interaction.member.roles.cache.some(role => disCon4Teams.includes(role.name))) {
+		// Prüfen, ob der Nutzer bereits eine Team-Rolle hat
+		const userRoles = interaction.member.roles.cache;
+		const hasTeamRole = userRoles.some(role => disCon4Teams.includes(role.name));
 
-
-			// Finde das Team mit den wenigsten Mitgliedern
-			let smallestTeam = disCon4Teams[0];
-			let smallestTeamSize = Infinity;
-			for (const team of disCon4Teams) {
-				const role = interaction.guild.roles.cache.find(roley => roley.name === team);
-				console.log(role);
-				const teamSize = interaction.guild.roles.fetch(role.id)
-					.then(rolex => console.log(`Anz: ${rolex.members.size}`))
-					.catch(console.error);
-				console.log(teamSize);
-
-				// const teamSize = role.members.size;
-				console.log(`${role.name}**${role.members.size}`);
-				if (teamSize < smallestTeamSize) {
-					smallestTeamSize = teamSize;
-					smallestTeam = team;
-				}
-			}
-			const newRole = interaction.guild.roles.cache.find(role => role.name === smallestTeam);
-
-
-			// await interaction.member.roles.add(newRole);
-			const replyContent = `Du bist jetzt ein **${newRole.name}**`;
-			await interaction.reply({ content: replyContent, ephemeral: true });
-
-		}
-		else {
-			const team = interaction.member.roles.cache.find(role => disCon4Teams.includes(role.name));
-			const replyContent = `Du bist schon ein **${team.name}**`;
-			await interaction.reply({ content: replyContent, ephemeral: true });
+		if (hasTeamRole) {
+			return interaction.reply({
+				content: 'Du bist bereits in einem Team!',
+				ephemeral: true,
+			});
 		}
 
+		// Alle Rollen im Server suchen
+		const guildRoles = await interaction.guild.roles.fetch();
+		const teamRoles = guildRoles.filter(role => disCon4Teams.includes(role.name));
 
+		// Rollen nach Mitgliederzahl sortieren (am wenigsten besetzte Rolle zuerst)
+		const sortedRoles = teamRoles.sort((a, b) => a.members.size - b.members.size);
+
+		// Die Rolle mit den wenigsten Mitgliedern auswählen
+		const targetRole = sortedRoles.first();
+
+		// Rolle dem Nutzer geben
+		await interaction.member.roles.add(targetRole);
+
+		await interaction.reply({
+			content: `Du bist jetzt ein **${targetRole.name}**!`,
+			ephemeral: true,
+		});
 	},
 };
