@@ -23,7 +23,7 @@ module.exports = {
 		}
 		else if (interaction.isButton()) {
 			// respond to the button
-			const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuergoblin', 'Eisvampir'];
+			const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuerteufel', 'Eisvampir'];
 
 			switch (interaction.customId) {
 			case 'jointeam':
@@ -72,7 +72,17 @@ module.exports = {
 				await interaction.reply({ content: 'Nachricht wird in <#1042921282699792396> gepostet', ephemeral: true });
 				spam_channel.send({ content: interaction.targetMessage.content });
 				break;
+			case 'React mit wtRaise':
+				console.log(interaction);
 
+				const react = await interaction.targetMessage.react('<:wtRaise:1055581587368058950>');
+				if (react) {
+					return interaction.reply({
+						content: 'reagiert mit <:wtRaise:1055581587368058950> !',
+						ephemeral: true,
+					});
+				}
+				break;
 			default:
 				await interaction.reply({ content: 'There was an error while executing this MessageContextMenuCommand!', ephemeral: true });
 				console.log(`Error: MessageContextMenuCommand ${interaction.commandName} noch nicht implemetiert.`);

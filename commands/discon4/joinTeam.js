@@ -5,7 +5,7 @@ module.exports = {
 		.setName('jointeam')
 		.setDescription('Tritt einem Team für die Discon 4 bei!'),
 	async execute(interaction) {
-		const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuergoblin', 'Eisvampir'];
+		const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuerteufel', 'Eisvampir'];
 
 		// Prüfen, ob der Nutzer bereits eine Team-Rolle hat
 		const userRoles = interaction.member.roles.cache;
