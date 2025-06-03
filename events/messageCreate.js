@@ -55,5 +55,14 @@ module.exports = {
 				bot_pn_channel.send({ content: `Hey <@&1042922106326876170> \nPing von <@${message.author.id}>\n${message.url}`, embeds: [exampleEmbed] });
 			}
 		}
+		else if (message.channelId == '1238834482681745487') {
+			try {
+				message.crosspost();
+			}
+			catch (error) {
+				const spam_channel = message.client.channels.cache.get('1055577596726870057');
+				spam_channel.send({ content: `Hey <@238563435049123840> \nFehler beim Crossposten!! \n \`\`\`js \n ${error}\`\`\`` });
+			}
+		}
 	},
 };
