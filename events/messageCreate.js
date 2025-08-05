@@ -64,5 +64,11 @@ module.exports = {
 				spam_channel.send({ content: `Hey <@238563435049123840> \nFehler beim Crossposten!! \n \`\`\`js \n ${error}\`\`\`` });
 			}
 		}
+		else if (message.channelId == '1378712722950193202' && message.author.id == '1378712890898518176') {
+			message.reply('<@1400752316130394184> https://discord.com/channels/467835226689765376/478083673602916364')
+				.then(() => console.log(`Replied to KBT message "${message.content}"`))
+				.catch(console.error);
+		}
+
 	},
 };
