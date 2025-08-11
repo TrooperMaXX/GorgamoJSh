@@ -65,7 +65,7 @@ module.exports = {
 			}
 		}
 		else if (message.channelId == '1378712722950193202' && message.author.id == '1378712890898518176') {
-			message.reply('<@1400752316130394184> https://discord.com/channels/467835226689765376/478083673602916364')
+			message.reply('<@&1400752316130394184> https://discord.com/channels/467835226689765376/478083673602916364')
 				.then(() => console.log(`Replied to KBT message "${message.content}"`))
 				.catch(console.error);
 		}
