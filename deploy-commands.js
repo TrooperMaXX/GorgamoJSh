@@ -25,6 +25,18 @@ const message2ServerInfo = new ContextMenuCommandBuilder()
 	.setType(ApplicationCommandType.Message);
 commands.push(message2ServerInfo.toJSON());
 
+// Add ContexMenuCommands
+const reactWithWTRAISE = new ContextMenuCommandBuilder()
+	.setName('React mit wtRaise')
+	.setType(ApplicationCommandType.Message);
+commands.push(reactWithWTRAISE.toJSON());
+
+// Add ContexMenuCommands
+const regenerateRundenInfo = new ContextMenuCommandBuilder()
+	.setName('Regenerate Runden Info')
+	.setType(ApplicationCommandType.Message);
+commands.push(regenerateRundenInfo.toJSON());
+
 // Construct and prepare an instance of the REST module
 const rest = new REST({ version: '10' }).setToken(token);
 
