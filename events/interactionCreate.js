@@ -85,7 +85,7 @@ module.exports = {
 				}
 				break;
 			case 'Regenerate Runden Info':
-				if (interaction.channelId == '1055577596726870057') {
+				if (interaction.channelId == '1238834482681745487') {
 					try {
 						await interaction.deferReply({ ephemeral: true });
 

@@ -14,7 +14,7 @@ module.exports = {
 				.setDescription(`<@${newMember.id}> ${choosenHelpTxt}`)
 				.setTimestamp();
 
-			buddyChannel.send({ content: 'Hey <@&1230570229369667584>', embeds: [exampleEmbed] });
+			buddyChannel.send({ content: 'Hey ', embeds: [exampleEmbed] });
 		}
 
 		if (!oldMember.roles.cache.some(role => role.name === 'Scammer') && newMember.roles.cache.some(role => role.name === 'Scammer')) {
