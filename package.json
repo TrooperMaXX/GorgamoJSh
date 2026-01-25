@@ -8,10 +8,10 @@
   "author": "TrooperMaXX",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.25.1"
   },
   "devDependencies": {
-    "eslint": "^8.38.0"
+    "eslint": "^9.39.2"
   },
   "repository": {
     "type": "git",
