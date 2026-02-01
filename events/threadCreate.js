@@ -48,9 +48,15 @@ module.exports = {
 				};
 
 				const adventure = {};
+				const MAX_LENGTH = 1000;
 				for (const [key, regex] of Object.entries(adventureRegex)) {
 					const match = firstMessage.content.match(regex);
-					adventure[key] = match ? match[2].trim() : '*Nicht angegeben*';
+					let value = match ? match[2].trim() : '*Nicht angegeben*';
+					 if (value.length > MAX_LENGTH) {
+        				value = value.substring(0, MAX_LENGTH - 3) + '...';
+    				}
+    
+   					adventure[key] = value;
 				}
 
 				const exampleEmbed = new EmbedBuilder()
