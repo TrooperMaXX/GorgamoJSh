@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-const { Events, EmbedBuilder } = require('discord.js');
+const { Events, EmbedBuilder, MessageFlags } = require('discord.js');
 const { getAppliedTagsEmojis } = require('../helper/tagEmojiMapper.js');
 
 module.exports = {
@@ -24,14 +24,77 @@ module.exports = {
 		}
 		else if (interaction.isButton()) {
 			// respond to the button
-			const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuerteufel', 'Eisvampir'];
+			const disCon5Teams = ['Rubin', 'Saphir', 'Smaragd'];
+			const disCon5Roles = [
+				'Ritter', 
+				'Naturotto', 
+				'Zauberer', 
+				'Geistlicher', 
+				'Pirat', 
+				'Forscher', 
+				'Künstler'
+			];
 
+			const roleMap = {
+				'joinrole1': 'Ritter',
+				'joinrole2': 'Naturotto',
+				'joinrole3': 'Zauberer',
+				'joinrole4': 'Geistlicher',
+				'joinrole5': 'Pirat',
+				'joinrole6': 'Forscher',
+				'joinrole7': 'Künstler',
+			};
+
+			// --- LOGIK FÜR DIE 7 ROLLEN (ERSETZBAR) ---
+			if (interaction.customId.startsWith('joinrole')) {
+				const targetRoleName = roleMap[interaction.customId];
+				const role = interaction.guild.roles.cache.find(r => r.name === targetRoleName);
+
+				if (!role) {
+					return interaction.reply({ 
+						content: `Rolle **${targetRoleName}** nicht gefunden!`, 
+						flags: [MessageFlags.Ephemeral] 
+					});
+				}
+
+				try {
+					// Finde alle DisCon-Rollen, die der User bereits hat
+					const currentDisConRoles = interaction.member.roles.cache.filter(r => 
+						disCon5Roles.includes(r.name)
+					);
+
+					// Wenn er genau die Rolle schon hat -> Abbruch
+					if (interaction.member.roles.cache.has(role.id)) {
+						return interaction.reply({ 
+							content: `Du bist bereits ein **${targetRoleName}**!`, 
+							flags: [MessageFlags.Ephemeral] 
+						});
+					}
+
+					// Alle alten DisCon-Rollen entfernen
+					if (currentDisConRoles.size > 0) {
+						await interaction.member.roles.remove(currentDisConRoles);
+					}
+
+					// Neue Rolle hinzufügen
+					await interaction.member.roles.add(role);
+
+					return interaction.reply({ 
+						content: `Deine Rolle wurde zu **${targetRoleName}** geändert!`, 
+						flags: [MessageFlags.Ephemeral] 
+					});
+
+				} catch (error) {
+					console.error(error);
+					return interaction.reply({ content: 'Fehler beim Zuweisen der Rolle.', flags: [MessageFlags.Ephemeral] });
+				}
+			}
 			switch (interaction.customId) {
 			case 'jointeam':
 
 				// Prüfen, ob der Nutzer bereits eine Team-Rolle hat
 				const userRoles = interaction.member.roles.cache;
-				const hasTeamRole = userRoles.some(role => disCon4Teams.includes(role.name));
+				const hasTeamRole = userRoles.some(role => disCon5Teams.includes(role.name));
 
 				if (hasTeamRole) {
 					return interaction.reply({
@@ -42,7 +105,7 @@ module.exports = {
 
 				// Alle Rollen im Server suchen
 				const guildRoles = await interaction.guild.roles.fetch();
-				const teamRoles = guildRoles.filter(role => disCon4Teams.includes(role.name));
+				const teamRoles = guildRoles.filter(role => disCon5Teams.includes(role.name));
 
 				// Rollen nach Mitgliederzahl sortieren (am wenigsten besetzte Rolle zuerst)
 				const sortedRoles = teamRoles.sort((a, b) => a.members.size - b.members.size);
@@ -63,6 +126,73 @@ module.exports = {
 				await interaction.reply({ content: 'There was an error while executing this Button!', ephemeral: true });
 				console.log(`Error: Button ${interaction.customId} noch nicht implemetiert.`);
 				console.log(interaction);
+			}
+		}
+		else if (interaction.isStringSelectMenu()) {
+			const disCon5Roles = [
+				'Ritter', 
+				'Naturotto', 
+				'Zauberer', 
+				'Geistlicher', 
+				'Pirat', 
+				'Forscher', 
+				'Künstler'
+			];
+
+			const roleMap = {
+				'joinrole1': 'Ritter',
+				'joinrole2': 'Naturotto',
+				'joinrole3': 'Zauberer',
+				'joinrole4': 'Geistlicher',
+				'joinrole5': 'Pirat',
+				'joinrole6': 'Forscher',
+				'joinrole7': 'Künstler',
+			};
+
+			if (interaction.customId === 'select-role') {
+				// interaction.values[0] enthält die "value", die du im Builder definiert hast
+				const selectedValue = interaction.values[0];
+				const targetRoleName = roleMap[selectedValue];
+				const role = interaction.guild.roles.cache.find(r => r.name === targetRoleName);
+
+				if (!role) {
+					return interaction.reply({ 
+						content: 'Rolle nicht gefunden!', 
+						flags: [MessageFlags.Ephemeral] 
+					});
+				}
+
+				try {
+					// Logik: Bestehende DisCon-Rollen finden und entfernen
+					const currentDisConRoles = interaction.member.roles.cache.filter(r => 
+						disCon5Roles.includes(r.name)
+					);
+
+					if (interaction.member.roles.cache.has(role.id)) {
+						return interaction.reply({ 
+							content: `Du bist bereits ein **${targetRoleName}**!`, 
+							flags: [MessageFlags.Ephemeral] 
+						});
+					}
+
+					if (currentDisConRoles.size > 0) {
+						await interaction.member.roles.remove(currentDisConRoles);
+					}
+
+					await interaction.member.roles.add(role);
+
+					return interaction.reply({ 
+						content: `Deine Rolle wurde im Menü auf **${targetRoleName}** geändert!`, 
+						flags: [MessageFlags.Ephemeral] 
+					});
+
+				} catch (error) {
+					console.error(error);
+					return interaction.reply({ 
+						content: 'Fehler beim Zuweisen der Rolle über das Menü.', 
+						flags: [MessageFlags.Ephemeral] 
+					});
+				}
 			}
 		}
 		else if (interaction.isMessageContextMenuCommand()) {
@@ -133,9 +263,15 @@ module.exports = {
 						};
 
 						const adventure = {};
+						const MAX_LENGTH = 1000;
 						for (const [key, regex] of Object.entries(adventureRegex)) {
-							const match = originalMessage.content.match(regex);
-							adventure[key] = match ? match[2].trim() : '*Nicht angegeben*';
+							const match = firstMessage.content.match(regex);
+							let value = match ? match[2].trim() : '*Nicht angegeben*';
+							if (value.length > MAX_LENGTH) {
+								value = value.substring(0, MAX_LENGTH - 3) + '...';
+							}
+    
+   							adventure[key] = value;
 						}
 
 						// Erstelle das neue Embed
@@ -188,9 +324,6 @@ module.exports = {
 				console.log(`Error: MessageContextMenuCommand ${interaction.commandName} noch nicht implemetiert.`);
 				console.log(interaction);
 			}
-		}
-		else if (interaction.isStringSelectMenu()) {
-			// respond to the select menu
 		}
 	},
 };

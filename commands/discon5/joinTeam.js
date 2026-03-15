@@ -3,13 +3,13 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('jointeam')
-		.setDescription('Tritt einem Team für die Discon 4 bei!'),
+		.setDescription('Tritt einem Team für die Discon V bei!'),
 	async execute(interaction) {
-		const disCon4Teams = ['Naturgeist', 'Donnerzwerg', 'Feuerteufel', 'Eisvampir'];
+		const disCon5Teams = ['Rubin', 'Saphir', 'Smaragd'];
 
 		// Prüfen, ob der Nutzer bereits eine Team-Rolle hat
 		const userRoles = interaction.member.roles.cache;
-		const hasTeamRole = userRoles.some(role => disCon4Teams.includes(role.name));
+		const hasTeamRole = userRoles.some(role => disCon5Teams.includes(role.name));
 
 		if (hasTeamRole) {
 			return interaction.reply({
@@ -20,7 +20,7 @@ module.exports = {
 
 		// Alle Rollen im Server suchen
 		const guildRoles = await interaction.guild.roles.fetch();
-		const teamRoles = guildRoles.filter(role => disCon4Teams.includes(role.name));
+		const teamRoles = guildRoles.filter(role => disCon5Teams.includes(role.name));
 
 		// Rollen nach Mitgliederzahl sortieren (am wenigsten besetzte Rolle zuerst)
 		const sortedRoles = teamRoles.sort((a, b) => a.members.size - b.members.size);
