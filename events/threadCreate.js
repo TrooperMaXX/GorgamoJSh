@@ -11,7 +11,7 @@ module.exports = {
 			// Warte bis der Thread und die erste Nachricht vollständig geladen sind
 			await new Promise(resolve => setTimeout(resolve, 2000));
 
-			const parentIds = ['1362071059326701578', '1362064707552542760', '1362053334433009835'];
+			const parentIds = ['1487779638796095528', '1487780686885818629', '1487780843677024397', '1487781119087611996'];
 			if (parentIds.includes(thread.parentId)) {
 				try {
 					const firstMessage = await thread.fetchStarterMessage();

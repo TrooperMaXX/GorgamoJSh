@@ -26,23 +26,23 @@ module.exports = {
 			// respond to the button
 			const disCon5Teams = ['Rubin', 'Saphir', 'Smaragd'];
 			const disCon5Roles = [
-				'Ritter', 
-				'Naturotto', 
-				'Zauberer', 
-				'Geistlicher', 
-				'Pirat', 
-				'Forscher', 
-				'Künstler'
+				'RitterIn', 
+				'Naturkundige:r', 
+				'Zaubernde:r', 
+				'Geistliche:r', 
+				'PiratIn', 
+				'ForscherIn', 
+				'KünstlerIn'
 			];
 
 			const roleMap = {
-				'joinrole1': 'Ritter',
-				'joinrole2': 'Naturotto',
-				'joinrole3': 'Zauberer',
-				'joinrole4': 'Geistlicher',
-				'joinrole5': 'Pirat',
-				'joinrole6': 'Forscher',
-				'joinrole7': 'Künstler',
+				'joinrole1': 'RitterIn',
+				'joinrole2': 'Naturkundige:r',
+				'joinrole3': 'Zaubernde:r',
+				'joinrole4': 'Geistliche:r',
+				'joinrole5': 'PiratIn',
+				'joinrole6': 'ForscherIn',
+				'joinrole7': 'KünstlerIn',
 			};
 
 			// --- LOGIK FÜR DIE 7 ROLLEN (ERSETZBAR) ---
@@ -129,71 +129,7 @@ module.exports = {
 			}
 		}
 		else if (interaction.isStringSelectMenu()) {
-			const disCon5Roles = [
-				'Ritter', 
-				'Naturotto', 
-				'Zauberer', 
-				'Geistlicher', 
-				'Pirat', 
-				'Forscher', 
-				'Künstler'
-			];
-
-			const roleMap = {
-				'joinrole1': 'Ritter',
-				'joinrole2': 'Naturotto',
-				'joinrole3': 'Zauberer',
-				'joinrole4': 'Geistlicher',
-				'joinrole5': 'Pirat',
-				'joinrole6': 'Forscher',
-				'joinrole7': 'Künstler',
-			};
-
-			if (interaction.customId === 'select-role') {
-				// interaction.values[0] enthält die "value", die du im Builder definiert hast
-				const selectedValue = interaction.values[0];
-				const targetRoleName = roleMap[selectedValue];
-				const role = interaction.guild.roles.cache.find(r => r.name === targetRoleName);
-
-				if (!role) {
-					return interaction.reply({ 
-						content: 'Rolle nicht gefunden!', 
-						flags: [MessageFlags.Ephemeral] 
-					});
-				}
-
-				try {
-					// Logik: Bestehende DisCon-Rollen finden und entfernen
-					const currentDisConRoles = interaction.member.roles.cache.filter(r => 
-						disCon5Roles.includes(r.name)
-					);
-
-					if (interaction.member.roles.cache.has(role.id)) {
-						return interaction.reply({ 
-							content: `Du bist bereits ein **${targetRoleName}**!`, 
-							flags: [MessageFlags.Ephemeral] 
-						});
-					}
-
-					if (currentDisConRoles.size > 0) {
-						await interaction.member.roles.remove(currentDisConRoles);
-					}
-
-					await interaction.member.roles.add(role);
-
-					return interaction.reply({ 
-						content: `Deine Rolle wurde im Menü auf **${targetRoleName}** geändert!`, 
-						flags: [MessageFlags.Ephemeral] 
-					});
-
-				} catch (error) {
-					console.error(error);
-					return interaction.reply({ 
-						content: 'Fehler beim Zuweisen der Rolle über das Menü.', 
-						flags: [MessageFlags.Ephemeral] 
-					});
-				}
-			}
+			// lol
 		}
 		else if (interaction.isMessageContextMenuCommand()) {
 			console.log(interaction);
