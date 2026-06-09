@@ -26,13 +26,13 @@ module.exports = {
 			// respond to the button
 			const disCon5Teams = ['Rubin', 'Saphir', 'Smaragd'];
 			const disCon5Roles = [
-				'RitterIn', 
-				'Naturkundige:r', 
-				'Zaubernde:r', 
-				'Geistliche:r', 
-				'PiratIn', 
-				'ForscherIn', 
-				'KünstlerIn'
+				'RitterIn',
+				'Naturkundige:r',
+				'Zaubernde:r',
+				'Geistliche:r',
+				'PiratIn',
+				'ForscherIn',
+				'KünstlerIn',
 			];
 
 			const roleMap = {
@@ -51,23 +51,23 @@ module.exports = {
 				const role = interaction.guild.roles.cache.find(r => r.name === targetRoleName);
 
 				if (!role) {
-					return interaction.reply({ 
-						content: `Rolle **${targetRoleName}** nicht gefunden!`, 
-						flags: [MessageFlags.Ephemeral] 
+					return interaction.reply({
+						content: `Rolle **${targetRoleName}** nicht gefunden!`,
+						flags: [MessageFlags.Ephemeral],
 					});
 				}
 
 				try {
 					// Finde alle DisCon-Rollen, die der User bereits hat
-					const currentDisConRoles = interaction.member.roles.cache.filter(r => 
-						disCon5Roles.includes(r.name)
+					const currentDisConRoles = interaction.member.roles.cache.filter(r =>
+						disCon5Roles.includes(r.name),
 					);
 
 					// Wenn er genau die Rolle schon hat -> Abbruch
 					if (interaction.member.roles.cache.has(role.id)) {
-						return interaction.reply({ 
-							content: `Du bist bereits ein **${targetRoleName}**!`, 
-							flags: [MessageFlags.Ephemeral] 
+						return interaction.reply({
+							content: `Du bist bereits ein **${targetRoleName}**!`,
+							flags: [MessageFlags.Ephemeral],
 						});
 					}
 
@@ -79,12 +79,13 @@ module.exports = {
 					// Neue Rolle hinzufügen
 					await interaction.member.roles.add(role);
 
-					return interaction.reply({ 
-						content: `Deine Rolle wurde zu **${targetRoleName}** geändert!`, 
-						flags: [MessageFlags.Ephemeral] 
+					return interaction.reply({
+						content: `Deine Rolle wurde zu **${targetRoleName}** geändert!`,
+						flags: [MessageFlags.Ephemeral],
 					});
 
-				} catch (error) {
+				}
+				catch (error) {
 					console.error(error);
 					return interaction.reply({ content: 'Fehler beim Zuweisen der Rolle.', flags: [MessageFlags.Ephemeral] });
 				}
@@ -201,12 +202,12 @@ module.exports = {
 						const adventure = {};
 						const MAX_LENGTH = 1000;
 						for (const [key, regex] of Object.entries(adventureRegex)) {
-							const match = firstMessage.content.match(regex);
+							const match = originalMessage.content.match(regex);
 							let value = match ? match[2].trim() : '*Nicht angegeben*';
 							if (value.length > MAX_LENGTH) {
 								value = value.substring(0, MAX_LENGTH - 3) + '...';
 							}
-    
+
    							adventure[key] = value;
 						}
 

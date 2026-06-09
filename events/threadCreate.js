@@ -55,7 +55,7 @@ module.exports = {
 					 if (value.length > MAX_LENGTH) {
         				value = value.substring(0, MAX_LENGTH - 3) + '...';
     				}
-    
+
    					adventure[key] = value;
 				}
 

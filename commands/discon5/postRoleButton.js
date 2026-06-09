@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder, StringSelectMenuBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,17 +24,17 @@ module.exports = {
 			.setCustomId('joinrole4')
 			.setLabel('🙏 Geistliche:r')
 			.setStyle(ButtonStyle.Secondary);
-		
+
 		const joinrole5 = new ButtonBuilder()
 			.setCustomId('joinrole5')
 			.setLabel('☠️ PiratIn')
 			.setStyle(ButtonStyle.Secondary);
-	
+
 		const joinrole6 = new ButtonBuilder()
 			.setCustomId('joinrole6')
 			.setLabel('🔍 ForscherIn')
 			.setStyle(ButtonStyle.Secondary);
-		
+
 		const joinrole7 = new ButtonBuilder()
 			.setCustomId('joinrole7')
 			.setLabel('🎨 KünstlerIn')
@@ -45,13 +45,12 @@ module.exports = {
 			.addComponents(joinrole2, joinrole3, joinrole4);
 
 		const row2 = new ActionRowBuilder()
-			.addComponents(joinrole5, joinrole1,joinrole6,joinrole7);
-			
+			.addComponents(joinrole5, joinrole1, joinrole6, joinrole7);
 
 
 		await interaction.reply({
 			content: 'Wähle deine Rolle!',
-			components: [row1,row2],
+			components: [row1, row2],
 		});
 	},
 };

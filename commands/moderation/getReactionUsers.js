@@ -45,13 +45,14 @@ module.exports = {
 			console.log('all done');
 			console.log(response);
 			const fs = require('fs');
-			fs.writeFile('/var/www/vhosts/troopermaxx.de/gorgamosh.troopermaxx.de/Usys.txt', response, err => {
+			// TODO: richtigen Pfad einfügen, momentan broken -.-'
+			fs.writeFile('../../Usys.txt', response, err => {
 				if (err) {
 					console.error(err);
 					return;
 				}
 			});
-			const file = new AttachmentBuilder('/var/www/vhosts/troopermaxx.de/gorgamosh.troopermaxx.de/Usys.txt');
+			const file = new AttachmentBuilder('../../Usys.txt');
 			await interaction.followUp({ files: [file] });
 		}
 
