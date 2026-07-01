@@ -1,8 +1,11 @@
 const { Events, EmbedBuilder } = require('discord.js');
+const { handleSpam } = require('../helper/antiSpam');
 
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(message) {
+		// Anti-Scam-Spam zuerst pruefen; bei Treffer Rest ueberspringen
+		if (await handleSpam(message)) return;
 		if (!message.guild && message.author.id != '1055607090523152456') {
 			const bot_pn_channel = message.client.channels.cache.get('1055621502290120714');
 
